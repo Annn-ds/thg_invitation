@@ -455,6 +455,21 @@
       color: var(--muted);
     }
 
+    /* ── DESKTOP: wider aspect ratio ── */
+    @media (min-width: 600px) {
+      .box-wrap {
+        height: min(84vh, 860px);
+        aspect-ratio: 3 / 4;
+        max-width: 68vw;
+      }
+    }
+    @media (min-width: 1200px) {
+      .box-wrap {
+        height: min(86vh, 900px);
+        max-width: 60vw;
+      }
+    }
+
     /* ── SHORT SCREEN ADJUSTMENTS ── */
     @media (max-height: 650px) {
       .box-wrap { height: min(60vh, 480px); max-width: 84vw; }
