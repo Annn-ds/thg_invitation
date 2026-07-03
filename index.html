@@ -525,8 +525,8 @@
 
         <div class="d-row">
           <div class="d-label">Thời gian</div>
-          <div class="d-main">Thứ Sáu, 25/07/2026</div>
-          <div class="d-sub">17:30 – 20:30 &nbsp;·&nbsp; Đón khách từ 17:00</div>
+          <div class="d-main">Thứ Ba, 14/07/2026</div>
+          <div class="d-sub">13:00 – 17:00</div>
         </div>
         <div class="d-row">
           <div class="d-label">Địa điểm</div>
@@ -536,49 +536,8 @@
       </div>
     </article>
 
-    <!-- PAPER 3: Agenda + Dress Code -->
-    <article class="paper p-agenda" id="p3">
-      <div class="paper-eyebrow">Chương trình</div>
-      <div class="agenda-item">
-        <span class="ag-time">17:00</span><span class="ag-dot"></span>
-        <div class="ag-content">
-          <div class="ag-title">Đón khách &amp; Check-in</div>
-          <div class="ag-sub">Nhận quà tặng và tham quan không gian sự kiện</div>
-        </div>
-      </div>
-      <div class="agenda-item">
-        <span class="ag-time">17:30</span><span class="ag-dot"></span>
-        <div class="ag-content">
-          <div class="ag-title">Khai mạc sự kiện</div>
-          <div class="ag-sub">Phát biểu của Ban Tổ Chức THG Fulfill &amp; OnPoint</div>
-        </div>
-      </div>
-      <div class="agenda-item">
-        <span class="ag-time">18:00</span><span class="ag-dot"></span>
-        <div class="ag-content">
-          <div class="ag-title">Chương trình chính</div>
-          <div class="ag-sub">Chia sẻ chiến lược Go Global &amp; thảo luận panel</div>
-        </div>
-      </div>
-      <div class="agenda-item">
-        <span class="ag-time">19:30</span><span class="ag-dot"></span>
-        <div class="ag-content">
-          <div class="ag-title">Networking &amp; Cocktail</div>
-          <div class="ag-sub">Kết nối tự do, tiệc nhẹ &amp; chụp ảnh lưu niệm</div>
-        </div>
-      </div>
-      <div class="agenda-item">
-        <span class="ag-time">20:30</span><span class="ag-dot"></span>
-        <div class="ag-content">
-          <div class="ag-title">Kết thúc</div>
-          <div class="ag-sub">Trao đổi danh thiếp &amp; tiễn khách</div>
-        </div>
-      </div>
-      <span class="dresscode"><span class="dc-dot">●</span> Dress Code : Smart Business / Business Formal</span>
-    </article>
-
-    <!-- PAPER 4: Register — nhan_vao.png bg + QR overlay -->
-    <article class="paper p-register" id="p4">
+    <!-- PAPER 3: Register — nhan_vao.png bg + QR overlay -->
+    <article class="paper p-register" id="p3">
       <div class="reg-bg" aria-hidden="true"></div>
       <div class="reg-inner">
         <p class="reg-eyebrow">Đăng ký tham dự</p>
@@ -652,8 +611,8 @@
       document.body.classList.add('papers-mode');
 
       // Cascade papers in
-      var delays = [350, 530, 710, 890];
-      ['p1','p2','p3','p4'].forEach(function(id, i) {
+      var delays = [350, 530, 710];
+      ['p1','p2','p3'].forEach(function(id, i) {
         setTimeout(function() {
           var el = document.getElementById(id);
           if (el) el.classList.add('in');
