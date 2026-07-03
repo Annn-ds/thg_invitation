@@ -47,7 +47,7 @@
       position: fixed; inset: 0; z-index: 20;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      background: var(--navy);
+      background: #0d2244;
       overflow: hidden;
       gap: 0;
     }
@@ -109,10 +109,9 @@
     }
 
     .box-wrap {
-      height: min(72vh, 700px);
-      aspect-ratio: 2 / 3;
-      width: auto;
-      max-width: 92vw;
+      width: 100vw;
+      height: 70vh;
+      max-width: none;
       position: relative;
     }
 
@@ -125,11 +124,8 @@
     }
     .box-lid img {
       width: 100%; height: 100%;
-      display: block; border-radius: 10px;
-      box-shadow:
-        0 24px 60px rgba(0,0,0,0.75),
-        0 0 0 1px rgba(201,162,75,0.18),
-        inset 0 0 30px rgba(201,162,75,0.04);
+      display: block; border-radius: 0;
+      box-shadow: none;
     }
 
     /* Breathing pulse (after text reveals) */
@@ -137,8 +133,8 @@
       animation: boxBreathe 2.8s ease-in-out infinite;
     }
     @keyframes boxBreathe {
-      0%, 100% { transform: scale(1);      box-shadow: 0 24px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,75,0.18); }
-      50%       { transform: scale(1.022); box-shadow: 0 28px 70px rgba(0,0,0,0.80), 0 0 0 1px rgba(201,162,75,0.30), 0 0 30px rgba(201,162,75,0.12); }
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.018); }
     }
 
     /* Press feedback */
@@ -460,6 +456,7 @@
       .box-wrap {
         height: min(84vh, 860px);
         aspect-ratio: 3 / 4;
+        width: auto;
         max-width: 68vw;
       }
     }
