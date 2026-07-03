@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Design Brief - Thiệp Mời Điện Tử (Passport Concept)</title>
+<style>
+  :root{
+    --navy:#0b1f3a; --gold:#c9a24b; --cream:#f7f3ea; --ink:#1a1a1a; --line:#e3ddcd;
+  }
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--ink);margin:0;padding:0 0 60px;}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 24px;}
+  header{background:var(--navy);color:var(--cream);padding:40px 24px;text-align:center;}
+  header h1{margin:0 0 8px;font-size:26px;letter-spacing:1px;}
+  header p{margin:0;color:var(--gold);font-size:14px;letter-spacing:2px;text-transform:uppercase;}
+  h2{color:var(--navy);border-bottom:2px solid var(--gold);padding-bottom:8px;margin-top:48px;font-size:20px;}
+  h3{color:var(--navy);font-size:16px;margin-top:24px;}
+  .badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+  th{background:#eee6d3;color:var(--navy);}
+  code{background:#eee6d3;padding:2px 6px;border-radius:4px;font-size:13px;}
+  .box{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);padding:16px 20px;margin:16px 0;border-radius:4px;}
+  .assumption{background:#fff7e6;border-left:4px solid #e0a800;padding:12px 16px;margin:16px 0;font-size:14px;border-radius:4px;}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0;}
+  .flow div{background:var(--navy);color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;}
+  .flow span{color:var(--gold);font-weight:700;}
+  ul{font-size:14px;line-height:1.6;}
+  .swatch{display:inline-block;width:16px;height:16px;border-radius:3px;vertical-align:middle;margin-right:6px;border:1px solid #0002;}
+</style>
+</head>
+<body>
+<header>
+  <p>Design & Dev Brief</p>
+  <h1>THIỆP MỜI ĐIỆN TỬ — CONCEPT "PASSPORT / BOARDING PASS"</h1>
+</header>
+
+<div class="wrap">
+
+<div class="box">
+<b>Mục tiêu:</b> Xây dựng thiệp mời điện tử dạng web (mobile-first), mô phỏng trải nghiệm mở một cuốn hộ chiếu. Khách bấm vào bìa hộ chiếu → hộ chiếu "mở ra" → chuyển sang trang thông tin sự kiện với hiệu ứng xuất hiện tuần tự, có bản đồ dẫn tới địa điểm và QR code đăng ký.
+</div>
+
+<h2>1. Cấu trúc tổng thể</h2>
+<div class="flow">
+  <div>Trang 1: Bìa Passport</div><span>➜</span>
+  <div>Hiệu ứng mở (flip)</div><span>➜</span>
+  <div>Trang 2: Thông tin sự kiện</div>
+</div>
+<ul>
+<li>1 trang HTML duy nhất (single page), gồm 2 "màn hình" (section) full-screen, chuyển đổi bằng animation — <b>không</b> load lại trang, không chuyển URL.</li>
+<li>Thiết kế <b>mobile-first</b>: khách sẽ mở link chủ yếu từ điện thoại (quét QR hoặc nhận link qua Zalo/Messenger).</li>
+</ul>
+
+<h2>2. Trang 1 — Bìa Passport (dựa theo ảnh mẫu đính kèm)</h2>
+<table>
+<tr><th width="180">Thành phần</th><th>Mô tả chi tiết</th></tr>
+<tr><td>Nền</td><td>Nền tối màu navy đậm (giống ảnh mẫu), có thể thêm hoạ tiết bản đồ thế giới mờ (world map texture) phía sau để tạo chiều sâu.</td></tr>
+<tr><td>Quả cầu xoay (globe)</td><td>Một hình cầu (globe/địa cầu) đặt giữa hoặc phía trên bìa passport, xoay liên tục quanh trục dọc (rotate 360°, loop vô hạn, tốc độ chậm ~20-30s/vòng, <code>ease: linear</code>). Có thể dùng ảnh globe 2D xoay bằng CSS <code>transform: rotateY()</code> kết hợp animation, hoặc dùng thư viện 3D nhẹ nếu muốn khối cầu thật (three.js/CSS 3D sphere).</td></tr>
+<tr><td>Chữ xuất hiện dần</td><td>Các dòng chữ (tên sự kiện, ngày, đơn vị tổ chức...) xuất hiện <b>lần lượt từng dòng</b>, không xuất hiện cùng lúc: <br>- Hiệu ứng: fade-in + trượt nhẹ từ dưới lên (opacity 0→1, translateY 15px→0)<br>- Thời gian mỗi dòng: 0.6-0.8s<br>- Độ trễ giữa các dòng: cách nhau 0.3-0.4s (staggered)<br>- Thứ tự gợi ý: Tên sự kiện → Slogan/mô tả ngắn → Ngày diễn ra → dòng gọi hành động "Chạm để mở" </td></tr>
+<tr><td>Gợi ý tương tác</td><td>Sau khi toàn bộ chữ hiện xong, thêm hiệu ứng "thở" nhẹ (pulse/breathing scale 1→1.03→1, lặp lại) trên cuốn passport để gợi ý người dùng bấm vào.</td></tr>
+<tr><td>Hành động</td><td>Toàn bộ vùng ảnh passport là 1 nút bấm (<code>onClick</code>). Có thể thêm hiệu ứng nhấn xuống nhẹ (scale 0.97) khi chạm để tạo cảm giác phản hồi (tactile feedback).</td></tr>
+</table>
+
+<h2>3. Hiệu ứng chuyển trang — "Mở hộ chiếu"</h2>
+<ul>
+<li>Khi bấm vào passport: bìa thực hiện hiệu ứng lật mở giống lật một cuốn sổ — dùng <code>transform: rotateY(0deg → -180deg)</code> trên trục bản lề bên trái (giống bìa sách được mở sang trái), kết hợp <code>perspective</code> để tạo chiều sâu 3D thật.</li>
+<li>Thời lượng: 0.9-1.2s, <code>ease: easeInOut</code>.</li>
+<li>Trong lúc lật, có thể fade dần trang bìa và fade-in trang 2 phía sau để tạo cảm giác "mở ra thấy nội dung bên trong".</li>
+<li>Sau khi animation kết thúc, trang 2 chiếm toàn màn hình, có thể cuộn (scroll) bình thường.</li>
+</ul>
+
+<h2>4. Trang 2 — Thông tin sự kiện (dựa theo ảnh "Trang chủ" đính kèm)</h2>
+<p>Toàn bộ các khối thông tin xuất hiện <b>tuần tự khi cuộn tới** (scroll-reveal), mỗi khối fade-in + trượt lên nhẹ, không xuất hiện đồng loạt — cùng kiểu chuyển động nhẹ nhàng như trang 1.</p>
+
+<h3>4.1. Khối tiêu đề / lời mời</h3>
+<ul><li>Tên sự kiện, lời mời trang trọng, logo (nếu có) — xuất hiện đầu tiên khi vào trang 2.</li></ul>
+
+<h3>4.2. Khối thời gian & địa điểm</h3>
+<table>
+<tr><th width="180">Thành phần</th><th>Chi tiết</th></tr>
+<tr><td>Thời gian</td><td>Ngày giờ sự kiện, hiển thị rõ, có thể có icon đồng hồ.</td></tr>
+<tr><td>Địa điểm (text)</td><td>TikTok Office – Building The Nexus, 13 Nguyễn Siêu, Phường Sài Gòn, TP.HCM</td></tr>
+<tr><td>Ảnh bản đồ</td><td>Chèn 1 ảnh tĩnh chụp từ Google Maps tại đúng địa chỉ trên (dùng Google Static Maps hoặc chụp màn hình khu vực bản đồ). Ảnh bo góc, có shadow nhẹ để trông như 1 "thẻ" (card).</td></tr>
+<tr><td>Hành động khi bấm ảnh map</td><td>Cả ảnh bản đồ là 1 link, mở tab mới (<code>target="_blank"</code>) dẫn tới Google Maps đúng địa chỉ:<br><code>https://www.google.com/maps/search/?api=1&query=Building+The+Nexus,+13+Nguy%E1%BB%85n+Si%C3%AAu,+Ph%C6%B0%E1%BB%9Dng+S%C3%A0i+G%C3%B2n,+TP.HCM</code></td></tr>
+</table>
+
+<h3>4.3. Khối chương trình / thông tin bổ sung</h3>
+<ul><li>Agenda, dress code, hoặc các thông tin khác theo ảnh mẫu — mỗi mục là 1 card nhỏ, xuất hiện so le (stagger) khi cuộn tới.</li></ul>
+
+<h3>4.4. Khối đăng ký (QR + Link)</h3>
+<table>
+<tr><th width="180">Thành phần</th><th>Chi tiết</th></tr>
+<tr><td>QR code</td><td>Chèn ảnh QR (do bạn cung cấp) ở giữa, kích thước đủ lớn để quét dễ trên điện thoại (~200x200px), có khung viền màu gold cho đồng bộ tông màu.</td></tr>
+<tr><td>Link đăng ký</td><td>Bên dưới QR đặt nút bấm dạng "pill button" — chữ kiểu "Đăng ký ngay" — bấm vào mở thẳng link đăng ký (cùng đường link mà QR trỏ tới).</td></tr>
+</table>
+<div class="assumption">
+<b>Cần bạn cung cấp thêm:</b> (1) file ảnh QR code, (2) đường link đăng ký thực tế để gắn vào nút bấm — hiện brief này để placeholder <code>[LINK_DANG_KY]</code>.
+</div>
+
+<h2>5. Bảng màu & Typography gợi ý</h2>
+<table>
+<tr><th>Màu</th><th>Vai trò</th></tr>
+<tr><td><span class="swatch" style="background:#0b1f3a"></span> Navy đậm <code>#0b1f3a</code></td><td>Nền chính, đồng bộ với tông bìa passport trong ảnh mẫu</td></tr>
+<tr><td><span class="swatch" style="background:#c9a24b"></span> Gold <code>#c9a24b</code></td><td>Chữ nhấn, viền, icon, nút bấm — tạo cảm giác sang trọng kiểu hộ chiếu VIP</td></tr>
+<tr><td><span class="swatch" style="background:#f7f3ea"></span> Kem/trắng ngà <code>#f7f3ea</code></td><td>Nền trang 2 hoặc chữ trên nền navy</td></tr>
+</table>
+<ul>
+<li>Font tiêu đề: dạng serif trang trọng (VD: Playfair Display, Cormorant) để hợp tinh thần "hộ chiếu/thiệp mời sang trọng".</li>
+<li>Font nội dung: sans-serif dễ đọc trên mobile (VD: Inter, Be Vietnam Pro — hỗ trợ tiếng Việt có dấu đầy đủ).</li>
+</ul>
+
+<h2>6. Gợi ý kỹ thuật triển khai (cho bạn code)</h2>
+<ul>
+<li>1 file HTML + CSS + JS thuần, hoặc React nếu quen — không cần backend, chỉ là trang tĩnh.</li>
+<li>Animation: dùng CSS <code>@keyframes</code> + <code>transition</code> là đủ cho hầu hết hiệu ứng; nếu muốn hiệu ứng scroll-reveal mượt, có thể dùng thư viện nhẹ như <code>AOS</code> (Animate On Scroll) hoặc <code>Framer Motion</code> (nếu dùng React).</li>
+<li>Globe xoay: nếu không cần globe 3D thật, dùng 1 ảnh PNG hình cầu và xoay bằng <code>@keyframes spin { from{transform:rotateY(0)} to{transform:rotateY(360deg)} }</code> áp cho 1 lớp overlay vân lục địa đặt trên hình cầu là đủ tạo ảo giác xoay.</li>
+<li>Hiệu ứng lật passport: dùng 2 mặt <code>div</code> với <code>backface-visibility:hidden</code> trong 1 container có <code>perspective: 1000px</code>, xoay container khi click.</li>
+<li>Đảm bảo responsive: test trên màn hình điện thoại thật (khổ dọc), chữ không bị tràn, ảnh bản đồ và QR đủ lớn để bấm/quét dễ dàng.</li>
+</ul>
+
+</div>
+</body>
+</html>
