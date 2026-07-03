@@ -109,8 +109,10 @@
     }
 
     .box-wrap {
-      width: min(92vw, 62vh, 580px);
-      aspect-ratio: 1 / 1;
+      height: min(72vh, 700px);
+      aspect-ratio: 2 / 3;
+      width: auto;
+      max-width: 92vw;
       position: relative;
     }
 
@@ -325,6 +327,28 @@
       font-size: 9px; letter-spacing: 0.5px; white-space: nowrap;
       padding: 3px 8px; border-radius: 10px;
     }
+    /* ── MAP PAPER ── */
+    .p-map { overflow: hidden; }
+    .map-full-link {
+      display: block; position: relative; height: 280px; text-decoration: none;
+    }
+    .map-full-link iframe {
+      width: 100%; height: 100%; border: none; pointer-events: none; display: block;
+    }
+    .map-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; background: var(--navy);
+    }
+    .map-addr-text {
+      font-size: 12px; color: rgba(247,243,234,0.72); line-height: 1.55; flex: 1;
+    }
+    .map-open-btn {
+      flex-shrink: 0; margin-left: 12px;
+      color: var(--gold); border: 1px solid var(--gold); background: transparent;
+      font-size: 11px; letter-spacing: 0.8px; white-space: nowrap;
+      padding: 6px 14px; border-radius: 20px; text-decoration: none;
+    }
+
     /* clearfix */
     .details-body::after { content: ''; display: block; clear: both; }
 
@@ -433,12 +457,12 @@
 
     /* ── SHORT SCREEN ADJUSTMENTS ── */
     @media (max-height: 650px) {
-      .box-wrap { width: min(84vw, 52vh); }
+      .box-wrap { height: min(60vh, 480px); max-width: 84vw; }
       .cover-text { margin-top: 12px; }
       .tap-hint   { margin-top: 10px; }
     }
     @media (max-height: 520px) {
-      .box-wrap { width: min(76vw, 44vh); }
+      .box-wrap { height: min(50vh, 360px); max-width: 78vw; }
     }
 
     /* ── REDUCED MOTION ── */
@@ -512,17 +536,6 @@
     <article class="paper p-details" id="p2">
       <div class="paper-eyebrow">Chi tiết sự kiện</div>
       <div class="details-body">
-        <!-- Map thumbnail floated right -->
-        <div class="map-thumb">
-          <a href="https://www.google.com/maps/search/?api=1&query=Building+The+Nexus,+13+Nguy%E1%BB%85n+Si%C3%AAu,+Ph%C6%B0%E1%BB%9Dng+S%C3%A0i+G%C3%B2n,+TP.HCM"
-             target="_blank" rel="noopener noreferrer" aria-label="Mở Google Maps chỉ đường">
-            <iframe
-              src="https://maps.google.com/maps?q=13+Nguyen+Sieu,+Ben+Nghe,+Quan+1,+Ho+Chi+Minh+City&output=embed&z=16&hl=vi"
-              title="Bản đồ sự kiện" loading="lazy"></iframe>
-            <span class="map-chip">📍 Chỉ đường</span>
-          </a>
-        </div>
-
         <div class="d-row">
           <div class="d-label">Thời gian</div>
           <div class="d-main">Thứ Ba, 14/07/2026</div>
@@ -536,8 +549,29 @@
       </div>
     </article>
 
-    <!-- PAPER 3: Register — nhan_vao.png bg + QR overlay -->
-    <article class="paper p-register" id="p3">
+    <!-- PAPER 3: Map full-width -->
+    <article class="paper p-map" id="p3">
+      <a class="map-full-link"
+         href="https://www.google.com/maps/search/?api=1&query=Building+The+Nexus,+13+Nguy%E1%BB%85n+Si%C3%AAu,+Ph%C6%B0%E1%BB%9Dng+S%C3%A0i+G%C3%B2n,+TP.HCM"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Mở Google Maps chỉ đường tới Building The Nexus">
+        <iframe
+          src="https://maps.google.com/maps?q=13+Nguyen+Sieu,+Ben+Nghe,+Quan+1,+Ho+Chi+Minh+City&output=embed&z=16&hl=vi"
+          title="Bản đồ địa điểm sự kiện" loading="lazy"></iframe>
+      </a>
+      <div class="map-footer">
+        <div class="map-addr-text">
+          📍 TikTok Office — Building The Nexus<br>
+          13 Nguyễn Siêu, P. Bến Nghé, Q.1, TP.HCM
+        </div>
+        <a class="map-open-btn"
+           href="https://www.google.com/maps/search/?api=1&query=Building+The+Nexus,+13+Nguy%E1%BB%85n+Si%C3%AAu,+Ph%C6%B0%E1%BB%9Dng+S%C3%A0i+G%C3%B2n,+TP.HCM"
+           target="_blank" rel="noopener noreferrer">Chỉ đường →</a>
+      </div>
+    </article>
+
+    <!-- PAPER 4: Register — nhan_vao.png bg + QR overlay -->
+    <article class="paper p-register" id="p4">
       <div class="reg-bg" aria-hidden="true"></div>
       <div class="reg-inner">
         <p class="reg-eyebrow">Đăng ký tham dự</p>
@@ -611,8 +645,8 @@
       document.body.classList.add('papers-mode');
 
       // Cascade papers in
-      var delays = [350, 530, 710];
-      ['p1','p2','p3'].forEach(function(id, i) {
+      var delays = [350, 510, 670, 830];
+      ['p1','p2','p3','p4'].forEach(function(id, i) {
         setTimeout(function() {
           var el = document.getElementById(id);
           if (el) el.classList.add('in');
